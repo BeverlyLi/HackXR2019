@@ -7,6 +7,9 @@ public class Paddle : MonoBehaviour
     private float triggerTh = 0.7f; // if the trigger is past this length, it is pressed 0->1
     private float thumbstickTh = 0.3f; // if the thumbstick goes past this threshold it is enabled x,y:-1->1 , (x,y)
 
+    private bool rTriggerPressed = false;
+    private bool canActivateShield = true;
+
     Rigidbody ball;
 
     public float distance = 0.5f;
@@ -28,7 +31,7 @@ public class Paddle : MonoBehaviour
         Reposition();
         ModifyDistance();
 
-        if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > triggerTh) {
+        if (rTriggerPressed = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > triggerTh) {
             ActivateShield();
         }
     }
@@ -60,23 +63,31 @@ public class Paddle : MonoBehaviour
     {
 
         if (!ball) return;
-        Debug.Log("not null ball");
-        Vector3 force = ball.transform.position - this.transform.position;
-        force += this.transform.forward * distance;
-        force = Vector3.Normalize(force);
+        if (!canActivateShield) return;
+        Vector3 force = this.transform.forward * forceMagnitude;
+        //force = Vector3.Normalize(force) * forceMagnitude;
         ball.useGravity = true;
+        ball.velocity = -ball.velocity;
         ball.AddForce(force);
+        ball = null;
+        canActivateShield = false;
+        StartCoroutine("ShieldCooldown");
+        Debug.Log("Shield Activated");
 
+    }
+    IEnumerator ShieldCooldown() {
+        yield return new WaitForSeconds(1);
+        Debug.Log("Shield Cooldown over");
+        canActivateShield = true;
     }
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("trigger enter");
+        
         ball = collider.attachedRigidbody;
     }
     void OnTriggerExit(Collider collider)
     {
-        Debug.Log("trigger exit");
         ball = null;
     }
 }
