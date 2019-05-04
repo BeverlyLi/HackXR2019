@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b7d8772d1532cfe458262e28a878b9f0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bullet: {fileID: 8939840917690030082, guid: 0f9c1df3407967e41b100e976d6d0be1,
+      type: 3}
+  - LeftDoor: {fileID: 144944350011913943, guid: 01814adaf5dc46f4fa2d9fc492879121,
+      type: 3}
+  - RightDoor: {fileID: 4274674215399092177, guid: 9139d88599f6a034e8ef7fda28d6e918,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
