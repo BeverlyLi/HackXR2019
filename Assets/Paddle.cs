@@ -18,12 +18,23 @@ public class Paddle : MonoBehaviour
     public float maxDist = 5.0f;
     public float forceMagnitude = 5.0f;
 
-    
+    public ParticleSystem effect;
 
+    public float magnetStrength;
+    public GameObject magnetizeTo;
+
+    Material material;
+    public Material matDef;
+    public Material matBall;
+    public Material matInit;
+
+    public GameObject paddleSide;
     // Start is called before the first frame update
     void Start()
     {
-        
+        effect.Stop();
+        material = GetComponent<Renderer>().material;
+        GetComponent<Renderer>().material = matInit;
     }
 
     // Update is called once per frame
@@ -35,7 +46,19 @@ public class Paddle : MonoBehaviour
         if (rTriggerPressed = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > triggerTh) {
             ActivateShield();
         }
-        
+
+        if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) > 0.3f)
+        {
+            magnetizeTo.GetComponent<Rigidbody>().isKinematic = true;
+
+            moveTowardsMagnet();
+        }
+        else
+        {
+            magnetizeTo.GetComponent<Rigidbody>().isKinematic = false;
+
+        }
+
     }
 
     private void Reposition()
@@ -65,6 +88,10 @@ public class Paddle : MonoBehaviour
 
     void ActivateShield()
     {
+        effect.transform.position = this.transform.position;
+        effect.transform.rotation = this.transform.rotation;
+        effect.Emit(50);
+        StartCoroutine(this.GetComponent<OculusHaptics>().VibrateTime(OculusHaptics.VibrationForce.Light, 0.3f));
 
         if (!ball) return;
         if (!canActivateShield) return;
@@ -76,24 +103,48 @@ public class Paddle : MonoBehaviour
         ball = null;
         canActivateShield = false;
         StartCoroutine("ShieldCooldown");
-        Debug.Log("Shield Activated");
+        //StartCoroutine(SpawnMagicCircle());
+        //OVRInput.SetControllerVibration(1f, 1f, OVRInput.Controller.RTouch);
 
     }
+
+
     IEnumerator ShieldCooldown() {
         yield return new WaitForSeconds(1);
-        Debug.Log("Shield Cooldown over");
+        //Debug.Log("Shield Cooldown over");
         canActivateShield = true;
     }
 
     void OnTriggerEnter(Collider collider)
     {
+        if (collider.GetComponent<Ball>()) {
+            GetComponent<Renderer>().material = matBall;
+            paddleSide.GetComponent<Renderer>().material = matBall;
+            ball = collider.attachedRigidbody;
+
+        }
         
-        ball = collider.attachedRigidbody;
     }
     void OnTriggerExit(Collider collider)
     {
-        ball = null;
+        if (collider.GetComponent<Ball>())
+        {
+
+            GetComponent<Renderer>().material = matDef;
+            paddleSide.GetComponent<Renderer>().material = matDef;
+            ball = null;
+        }
+        
     }
+
+    void moveTowardsMagnet() {
+        if (!magnetizeTo) return;
+        this.GetComponent<OculusHaptics>().Vibrate(OculusHaptics.VibrationForce.Light);
+        magnetizeTo.transform.position = Vector3.Lerp(magnetizeTo.transform.position, this.transform.position, Time.deltaTime * 5);
+
+    }
+
+
 
     
 }

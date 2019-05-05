@@ -11,6 +11,8 @@ public class ButtonCollide : MonoBehaviour
     private Animator leftDoorAnimator;
     private Animator rightDoorAnimator;
 
+    private bool open = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,14 +28,19 @@ public class ButtonCollide : MonoBehaviour
     {
         if(col.gameObject.name == "Ball")
         {
-            buttonAnimator.enabled = true;
-            leftDoorAnimator.enabled = true;
-            rightDoorAnimator.enabled = true;
+            if (!open)
+            {
+                buttonAnimator.enabled = true;
+                leftDoorAnimator.enabled = true;
+                rightDoorAnimator.enabled = true;
 
-            buttonAnimator.Play("ButtonPress", 0, 0);
-            leftDoorAnimator.Play("SlideL", 0, 0);
-            rightDoorAnimator.Play("SlideR", 0, 0);
-            bullet.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 200));
+                buttonAnimator.Play("ButtonPress", 0, 0);
+                leftDoorAnimator.Play("SlideL", 0, 0);
+                rightDoorAnimator.Play("SlideR", 0, 0);
+                bullet.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 200));
+            }
+            open = true;
+            
         }
     }
 

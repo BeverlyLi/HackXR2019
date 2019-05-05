@@ -38,7 +38,7 @@ public class RecoilScript : MonoBehaviour
             light1.SetActive(true);
             light2.SetActive(true);
             
-            Debug.Log("RREEEEEE");
+          //  Debug.Log("RREEEEEE");
         }
         
         if (triggerState < triggerTh && prevTriggerState > triggerTh)

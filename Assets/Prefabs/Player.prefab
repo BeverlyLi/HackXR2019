@@ -515,6 +515,13 @@ MonoBehaviour:
   minDist: 1
   maxDist: 5
   forceMagnitude: 500
+  effect: {fileID: 0}
+  magnetStrength: 0
+  magnetizeTo: {fileID: 0}
+  matDef: {fileID: 0}
+  matBall: {fileID: 0}
+  matInit: {fileID: 0}
+  paddleSide: {fileID: 0}
 --- !u!1 &8954626191133067077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,6 +1319,13 @@ MonoBehaviour:
   minDist: 1
   maxDist: 5
   forceMagnitude: 500
+  effect: {fileID: 0}
+  magnetStrength: 0
+  magnetizeTo: {fileID: 0}
+  matDef: {fileID: 0}
+  matBall: {fileID: 0}
+  matInit: {fileID: 0}
+  paddleSide: {fileID: 0}
 --- !u!1 &8954994057284312198
 GameObject:
   m_ObjectHideFlags: 0

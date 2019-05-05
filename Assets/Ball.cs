@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
     public Vector3 originalPosition;
     public GameObject magnetizeTo;
     public float magnetStrength;
+    public float maxVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -23,23 +24,20 @@ public class Ball : MonoBehaviour
             mitigateGravity();
             
         }
-        if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) > 0.3f)
-        {
-            this.GetComponent<Rigidbody>().isKinematic = true;
-
-            moveTowardsMagnet();
-        }
-        else {
-            this.GetComponent<Rigidbody>().isKinematic = false;
-
-        }
+        
 
         if (Input.GetKeyDown("s")) {
             Reset();
         }
         if (OVRInput.Get(OVRInput.Button.One)) {
             Reset();
+
         }
+        //Debug.Log("magnitude " + this.GetComponent<Rigidbody>().velocity.magnitude);
+        if (this.GetComponent<Rigidbody>().velocity.magnitude > maxVelocity) {
+            this.GetComponent<Rigidbody>().velocity = Vector3.Normalize(this.GetComponent<Rigidbody>().velocity) * maxVelocity;
+        }
+
     }
 
     void mitigateGravity()
@@ -52,9 +50,13 @@ public class Ball : MonoBehaviour
         this.GetComponent<Rigidbody>().velocity = new Vector3();
     }
 
-    void moveTowardsMagnet()
-    {
-        if (!magnetizeTo) return;
-        this.transform.position = Vector3.Lerp(this.transform.position, magnetizeTo.transform.position, Time.deltaTime * magnetStrength);
+    
+
+    void OnCollisionEnter(Collision collision) {
+        Vector3 magnetforce = magnetizeTo.transform.position - this.transform.position;
+
+
+
+        this.GetComponent<Rigidbody>().AddForce(magnetforce);
     }
 }
