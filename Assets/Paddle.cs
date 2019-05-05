@@ -18,6 +18,7 @@ public class Paddle : MonoBehaviour
     public float maxDist = 5.0f;
     public float forceMagnitude = 5.0f;
 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +35,15 @@ public class Paddle : MonoBehaviour
         if (rTriggerPressed = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > triggerTh) {
             ActivateShield();
         }
+        
     }
 
     private void Reposition()
     {
         this.transform.localPosition = new Vector3(0, 0, distance);
     }
+
+
     private void ModifyDistance()
     {
         if (OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y > thumbstickTh)
@@ -66,9 +70,9 @@ public class Paddle : MonoBehaviour
         if (!canActivateShield) return;
         Vector3 force = this.transform.forward * forceMagnitude;
         //force = Vector3.Normalize(force) * forceMagnitude;
-        ball.useGravity = true;
+        //ball.useGravity = true;
         ball.velocity = -ball.velocity;
-        ball.AddForce(force);
+        ball.velocity += force * Time.deltaTime;
         ball = null;
         canActivateShield = false;
         StartCoroutine("ShieldCooldown");
@@ -90,4 +94,6 @@ public class Paddle : MonoBehaviour
     {
         ball = null;
     }
+
+    
 }

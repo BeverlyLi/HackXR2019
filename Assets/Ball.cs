@@ -25,7 +25,13 @@ public class Ball : MonoBehaviour
         }
         if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) > 0.3f)
         {
+            this.GetComponent<Rigidbody>().isKinematic = true;
+
             moveTowardsMagnet();
+        }
+        else {
+            this.GetComponent<Rigidbody>().isKinematic = false;
+
         }
 
         if (Input.GetKeyDown("s")) {
@@ -46,13 +52,9 @@ public class Ball : MonoBehaviour
         this.GetComponent<Rigidbody>().velocity = new Vector3();
     }
 
-    void moveTowardsMagnet() {
+    void moveTowardsMagnet()
+    {
         if (!magnetizeTo) return;
-        Rigidbody b = this.GetComponent<Rigidbody>();
-        //b.velocity = 0.5f * b.velocity;
-
-        Vector3 magnetizeForce = magnetizeTo.transform.position - this.transform.position;
-        magnetizeForce = magnetizeForce * magnetStrength;
-        b.AddForce(magnetizeForce);
+        this.transform.position = Vector3.Lerp(this.transform.position, magnetizeTo.transform.position, Time.deltaTime * magnetStrength);
     }
 }
