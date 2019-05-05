@@ -11,7 +11,7 @@ public class ButtonCollide : MonoBehaviour
     private Animator leftDoorAnimator;
     private Animator rightDoorAnimator;
 
-    private bool open = false;
+    public bool open = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +40,6 @@ public class ButtonCollide : MonoBehaviour
                 bullet.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 200));
             }
             open = true;
-            
         }
     }
 

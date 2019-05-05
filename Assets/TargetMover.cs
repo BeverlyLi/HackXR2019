@@ -4,38 +4,37 @@ using UnityEngine;
 
 public class TargetMover : MonoBehaviour
 {
-    public GameObject TargetUL; // Upper-left
-    public GameObject TargetUM; // Upper-middle
-    public GameObject TargetUR; // Upper-right
-    public GameObject TargetLL; // Lower-left
-    public GameObject TargetLM; // Lower-middle
-    public GameObject TargetLR; // Lower-right
+    public Animator anim; 
+    
 
-    private Animator TULAnimator;
-    private Animator TUMAnimator;
-    private Animator TURAnimator;
-    private Animator TLLAnimator;
-    private Animator TLMAnimator;
-    private Animator TLRAnimator;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown("q")) {
+            AnimateIn();
+        }
+        if (Input.GetKeyDown("w"))
+        {
+            AnimateOut();
+        }
     }
     /*
      * From a separate script we call th
      */
-    void AnimateIn() {
-        //TBD
+    public void AnimateIn() {
+        anim.enabled = true;
+        anim.Play("SlideIn", 0, 0);
     }
-    void AnimateOut() {
-        //TBD
+    public void AnimateOut() {
+        anim.enabled = true;
+        anim.Play("SlideOut", 0, 0);
     }
 }

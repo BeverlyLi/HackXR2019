@@ -59,6 +59,13 @@ public class Paddle : MonoBehaviour
 
         }
 
+        if (OVRInput.Get(OVRInput.Button.Two))
+        {
+            this.GetComponent<PlacePaddle>().enabled = true;
+            this.GetComponent<Paddle>().enabled = false;
+
+        }
+
     }
 
     private void Reposition()

@@ -16,9 +16,5 @@ public class Floor : MonoBehaviour
     {
         
     }
-    void OnTriggerStay(Collider collider) {
-        Vector3 v = collider.attachedRigidbody.velocity;
-        v = v + 2 * Vector3.Project(v, Vector3.up) * 2;
-        collider.attachedRigidbody.velocity = v;
-    }
+    
 }
